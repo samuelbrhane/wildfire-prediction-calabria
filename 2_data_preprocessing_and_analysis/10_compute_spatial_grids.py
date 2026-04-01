@@ -115,8 +115,7 @@ if __name__ == "__main__":
     from multiprocessing import freeze_support
     freeze_support()
 
-    # Fire grids — skip first 2 years if incomplete
-    fire_years = sorted(os.listdir(FIRE_BASE_DIR))[2:]
+    fire_years = sorted(os.listdir(FIRE_BASE_DIR))
     fire_args = [(year, FIRE_BASE_DIR, OUTPUT_DIR) for year in fire_years]
 
     print("Computing yearly fire count grids...")
