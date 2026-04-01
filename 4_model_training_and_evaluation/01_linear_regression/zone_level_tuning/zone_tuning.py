@@ -24,7 +24,7 @@ MODELS_DIR = os.path.join(CURRENT_DIR, "models")
 random.seed(SEED)
 np.random.seed(SEED)
 
-NUM_TRIALS = 20
+NUM_TRIALS = 100
 
 for zone_id in range(1, 9):
     print(f"\n=== Tuning Linear Regression for Zone {zone_id} ===")
