@@ -43,7 +43,7 @@ def predict_fn(model, X_test, y_test, df_test, scaler_y=None):
     return y_pred, y_true, residuals, test_dates
 
 
-for zone_id in range(1, 2):
+for zone_id in range(1, 9):
     print(f"\n=== Model Selection for Zone {zone_id} ===")
     result_file = os.path.join(RESULTS_DIR, f"zone_{zone_id}_gpr_results.csv")
 
@@ -57,7 +57,7 @@ for zone_id in range(1, 2):
         predict_fn=predict_fn,
         get_params_fn=get_params,
         zone_id=zone_id,
-        top_n=3
+        top_n=10
     )
 
 print("\nAll GPR zone model selection complete.")
