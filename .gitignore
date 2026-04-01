@@ -40,3 +40,7 @@ Thumbs.db
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+
+# Model training outputs
+4_model_training_and_evaluation/**/models/
+4_model_training_and_evaluation/**/results/

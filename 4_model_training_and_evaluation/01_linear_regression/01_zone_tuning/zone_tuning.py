@@ -7,6 +7,7 @@ import pandas as pd
 import joblib
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '3_utils'))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 from constants import SEED
 from tuning_config import LINEAR_REGRESSION_SEARCH_SPACE as SEARCH_SPACE
