@@ -1,6 +1,6 @@
 # Wildfire Prediction — Calabria, Italy
 
-Daily wildfire prediction in Calabria, Italy using five machine learning models — Linear Regression, Gaussian Process Regression (GPR), XGBoost, LSTM and Transformer — across eight warning zones and at the regional scale, trained on data from 2008 to 2018.
+Daily wildfire prediction in Calabria, Italy using five machine learning models: Linear Regression, Gaussian Process Regression (GPR), XGBoost, LSTM and Transformer across eight warning zones and at the regional scale, trained on data from 2008 to 2018.
 
 ---
 
