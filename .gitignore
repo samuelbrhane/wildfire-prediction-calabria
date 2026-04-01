@@ -18,14 +18,16 @@ env/
 .ipynb_checkpoints/
 
 
-# Data — contents not versioned, only folder structure
-1_data/raw/*
-1_data/processed/*
-
-# Keep the .gitkeep files
-!1_data/raw/.gitkeep
-!1_data/processed/.gitkeep
-!1_data/processed/yearly/.gitkeep
+# Data — ignore all data files but keep folder structure
+1_data/**/*.parquet
+1_data/**/*.csv
+1_data/**/*.shp
+1_data/**/*.dbf
+1_data/**/*.shx
+1_data/**/*.prj
+1_data/**/*.h5
+1_data/**/*.hdf5
+1_data/**/*.qpj
 
 # OS / Editor
 .DS_Store
