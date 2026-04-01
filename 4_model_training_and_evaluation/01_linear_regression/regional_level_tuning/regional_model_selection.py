@@ -10,6 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from data_loader import load_regional_data
 from preprocessing import preprocess_lag_features
 from model_selection import evaluate_top_models
+from evaluation import evaluate_model
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(CURRENT_DIR, "results")
@@ -31,13 +32,15 @@ def make_preprocess_fn(params):
     return preprocess_lag_features(df.copy(), params)
 
 
-def predict_fn(model, X_test, y_test, df_test, scaler_y=None):
+def predict_fn(model, preprocess_result):
     # Predict and compute residuals for Linear Regression regional model
+    _, _, _, _, X_test, y_test, df_test = preprocess_result
     y_pred = np.round(np.clip(model.predict(X_test), 0, None))
     y_true = np.round(np.clip(y_test, 0, None))
     residuals = y_true - y_pred
     test_dates = df_test["Date"].reset_index(drop=True)
-    return y_pred, y_true, residuals, test_dates
+    metrics = evaluate_model(model, X_test, y_test)
+    return y_pred, y_true, residuals, test_dates, metrics
 
 
 result_file = os.path.join(RESULTS_DIR, "regional_linear_results.csv")
