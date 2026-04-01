@@ -24,9 +24,9 @@ MODELS_DIR = os.path.join(CURRENT_DIR, "models")
 random.seed(SEED)
 np.random.seed(SEED)
 
-NUM_TRIALS = 5
+NUM_TRIALS = 100
 
-for zone_id in range(1, 2):
+for zone_id in range(1, 9):
     print(f"\n=== Tuning GPR for Zone {zone_id} ===")
 
     results_csv_path = os.path.join(RESULTS_DIR, f"zone_{zone_id}_gpr_results.csv")
