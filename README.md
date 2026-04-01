@@ -29,7 +29,7 @@ See the README in each folder for detailed instructions.
 
 ### 1. Clone the repository
 
-    git clone https://github.com/your-username/wildfire-prediction-calabria.git
+    git clone https://github.com/samuelbrhane/wildfire-prediction-calabria.git
     cd wildfire-prediction-calabria
 
 ### 2. Create and activate a virtual environment
