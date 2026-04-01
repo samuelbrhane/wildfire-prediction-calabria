@@ -28,6 +28,7 @@ env/
 1_data/**/*.h5
 1_data/**/*.hdf5
 1_data/**/*.qpj
+1_data/**/*.npy
 
 # OS / Editor
 .DS_Store
