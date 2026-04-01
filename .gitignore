@@ -44,3 +44,4 @@ Thumbs.db
 # Model training outputs
 4_model_training_and_evaluation/**/models/
 4_model_training_and_evaluation/**/results/
+4_model_training_and_evaluation/**/model_selection_results/
