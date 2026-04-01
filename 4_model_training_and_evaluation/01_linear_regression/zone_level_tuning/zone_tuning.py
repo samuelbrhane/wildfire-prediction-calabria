@@ -28,17 +28,26 @@ NUM_TRIALS = 20
 
 for zone_id in range(1, 9):
     print(f"\n=== Tuning Linear Regression for Zone {zone_id} ===")
+
+    results_csv_path = os.path.join(RESULTS_DIR, f"zone_{zone_id}_linear_results.csv")
+    model_dir = os.path.join(MODELS_DIR, f"zone_{zone_id}")
+    os.makedirs(model_dir, exist_ok=True)
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+
+    # Resume from last completed trial if exists
+    completed_trials = 0
+    if os.path.exists(results_csv_path):
+        completed_trials = len(pd.read_csv(results_csv_path))
+        print(f"Found {completed_trials} completed trials — resuming...")
+
     try:
         df = load_zone_data(zone_id)
+        print(f"Loaded data for Zone {zone_id}: {len(df)} rows")
     except Exception as e:
         print(f"Skipping Zone {zone_id} due to error: {e}")
         continue
 
-    model_dir = os.path.join(MODELS_DIR, f"zone_{zone_id}")
-    os.makedirs(model_dir, exist_ok=True)
-    results = []
-
-    for trial in range(NUM_TRIALS):
+    for trial in range(completed_trials, NUM_TRIALS):
         print(f"Trial {trial + 1}/{NUM_TRIALS}")
         try:
             params = sample_params(SEARCH_SPACE)
@@ -53,27 +62,28 @@ for zone_id in range(1, 9):
             model_path = os.path.join(model_dir, model_filename)
             joblib.dump(model, model_path)
 
-            trial_result = {
+            trial_result = clean_for_python({
                 **params,
                 "model_file": model_path,
+                "train_size": len(X_train),
+                "val_size": len(X_val),
+                "test_size": len(X_test),
                 **{f"train_{k}": v for k, v in train_metrics.items()},
                 **{f"val_{k}": v for k, v in val_metrics.items()}
-            }
-            results.append(trial_result)
+            })
+
+            # Append result immediately after each trial
+            pd.DataFrame([trial_result]).to_csv(
+                results_csv_path,
+                mode='a',
+                header=not os.path.exists(results_csv_path),
+                index=False
+            )
 
         except Exception as e:
             print(f"Skipping trial {trial + 1} due to error: {e}")
             continue
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    results_py_path = os.path.join(RESULTS_DIR, f"zone_{zone_id}_linear_results.py")
-    results_csv_path = os.path.join(RESULTS_DIR, f"zone_{zone_id}_linear_results.csv")
-
-    with open(results_py_path, 'w') as f:
-        f.write("results = [\n")
-        for res in clean_for_python(results):
-            f.write(f"    {res},\n")
-        f.write("]\n")
-
-    pd.DataFrame(results).to_csv(results_csv_path, index=False)
     print(f"Zone {zone_id} complete — results saved to {results_csv_path}")
+
+print("\nAll Linear Regression zone tuning complete.")
