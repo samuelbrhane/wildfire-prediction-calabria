@@ -50,19 +50,16 @@ def evaluate_top_models(
             print(f"Failed to load model {model_filename}: {e}")
             continue
 
-        result = preprocess_fn(params)
-        _, _, _, _, X_test, y_test, df_test, *extras = result
-        scaler_y = extras[0] if extras else None
+        # Pass full preprocess result to predict_fn so each model unpacks what it needs
+        preprocess_result = preprocess_fn(params)
 
-        metrics = evaluate_model(model, X_test, y_test, scaler_y=scaler_y)
+        y_pred, y_true, residuals, test_dates, metrics = predict_fn(
+            model, preprocess_result
+        )
 
         print(f"Test metrics for {model_filename}:")
         for k, v in metrics.items():
             print(f"  {k}: {v:.4f}")
-
-        y_pred, y_true, residuals, test_dates = predict_fn(
-            model, X_test, y_test, df_test, scaler_y=scaler_y
-        )
 
         output_subdir = f"zone_{zone_id}" if zone_id is not None else "regional"
         output_dir = os.path.join(save_dir, output_subdir)
@@ -86,8 +83,7 @@ def evaluate_top_models(
             residuals=residuals,
             metrics=metrics,
             test_dates=test_dates,
-            zone_id=zone_id,
-            y_std=extras[1] if len(extras) > 1 else None
+            zone_id=zone_id
         )
 
         evaluated_models.append({
