@@ -29,7 +29,7 @@ env/
 1_data/**/*.hdf5
 1_data/**/*.qpj
 1_data/**/*.npy
-
+y.pub
 # OS / Editor
 .DS_Store
 Thumbs.db
