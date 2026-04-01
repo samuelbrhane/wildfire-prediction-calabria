@@ -1,4 +1,4 @@
-# Zone-level model selection and evaluation for Linear Regression
+# Zone-level model selection and evaluation for GPR
 import os
 import sys
 import numpy as np
@@ -17,11 +17,13 @@ SELECTION_DIR = os.path.join(CURRENT_DIR, "model_selection_results")
 
 
 def get_params(row):
-    # Extract Linear Regression hyperparameters from result row
+    # Extract GPR hyperparameters from result row
     return {
         'fire_lag': int(row['fire_lag']),
         'climate_lag': int(row['climate_lag']),
-        'fit_intercept': bool(row['fit_intercept'])
+        'constant_value': float(row['constant_value']),
+        'length_scale': float(row['length_scale']),
+        'alpha': float(row['alpha'])
     }
 
 
@@ -32,26 +34,30 @@ def make_preprocess_fn(zone_id, params):
 
 
 def predict_fn(model, X_test, y_test, df_test, scaler_y=None):
-    # Predict and compute residuals for Linear Regression
-    y_pred = np.round(np.clip(model.predict(X_test), 0, None))
+    # Predict with uncertainty estimates for GPR
+    y_pred_raw, y_std = model.predict(X_test, return_std=True)
+    y_pred = np.round(np.clip(y_pred_raw, 0, None))
     y_true = np.round(np.clip(y_test, 0, None))
     residuals = y_true - y_pred
     test_dates = df_test["Date"].reset_index(drop=True)
     return y_pred, y_true, residuals, test_dates
 
 
-for zone_id in range(1, 9):
+for zone_id in range(1, 2):
     print(f"\n=== Model Selection for Zone {zone_id} ===")
-    result_file = os.path.join(RESULTS_DIR, f"zone_{zone_id}_linear_results.csv")
+    result_file = os.path.join(RESULTS_DIR, f"zone_{zone_id}_gpr_results.csv")
 
     evaluate_top_models(
         group_name=f"zone_{zone_id}",
         result_file=result_file,
         save_dir=SELECTION_DIR,
-        model_type="linear",
+        model_type="gpr",
         preprocess_fn=lambda params, z=zone_id: make_preprocess_fn(z, params),
         load_model_fn=joblib.load,
         predict_fn=predict_fn,
         get_params_fn=get_params,
-        zone_id=zone_id
+        zone_id=zone_id,
+        top_n=3
     )
+
+print("\nAll GPR zone model selection complete.")
