@@ -10,7 +10,10 @@ def sample_params(search_space):
         if isinstance(value, list):
             params[key] = random.choice(value)
         elif isinstance(value, tuple) and len(value) == 2:
-            params[key] = random.randint(*value)
+            if all(isinstance(v, int) for v in value):
+                params[key] = random.randint(*value)
+            else:
+                params[key] = random.uniform(*value)
     return params
 
 
