@@ -25,7 +25,7 @@ env/
 # Keep the .gitkeep files
 !1_data/raw/.gitkeep
 !1_data/processed/.gitkeep
-
+!1_data/processed/yearly/.gitkeep
 
 # OS / Editor
 .DS_Store
