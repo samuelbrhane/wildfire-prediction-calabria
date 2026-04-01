@@ -11,6 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from data_loader import load_regional_data
 from preprocessing import preprocess_sequences
 from model_selection import evaluate_top_models
+from evaluation import evaluate_model
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(CURRENT_DIR, "results")
@@ -43,8 +44,9 @@ def load_model_fn(model_path):
     return load_model(model_path, custom_objects={"mse": MeanSquaredError()})
 
 
-def predict_fn(model, X_test, y_test, df_test, scaler_y=None):
+def predict_fn(model, preprocess_result):
     # Predict and inverse transform for LSTM regional model
+    _, _, _, _, X_test, y_test, df_test, scaler_y = preprocess_result
     y_pred_scaled = model.predict(X_test)
     y_pred = np.round(np.clip(
         scaler_y.inverse_transform(y_pred_scaled).flatten(), 0, None
@@ -54,7 +56,8 @@ def predict_fn(model, X_test, y_test, df_test, scaler_y=None):
     ))
     residuals = y_true - y_pred
     test_dates = df_test["Date"].reset_index(drop=True)
-    return y_pred, y_true, residuals, test_dates
+    metrics = evaluate_model(model, X_test, y_test, scaler_y=scaler_y)
+    return y_pred, y_true, residuals, test_dates, metrics
 
 
 result_file = os.path.join(RESULTS_DIR, "regional_lstm_results.csv")
