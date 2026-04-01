@@ -13,11 +13,11 @@ This project develops and evaluates a suite of models for predicting daily wildf
 ## Repository Structure
 
     wildfire-prediction-calabria/
-    ├── 1_data/                          ← raw and processed data (not pushed)
+    ├── 1_data/                             ← raw and processed data (not pushed)
     ├── 2_data_preprocessing_and_analysis/  ← preprocessing pipeline and EDA
-    ├── 3_utils/                         ← shared utilities for all models
-    ├── 4_model_training_and_evaluation/ ← tuning and selection for all 5 models
-    ├── 5_feature_importance/            ← feature importance analysis
+    ├── 3_utils/                            ← shared utilities for all models
+    ├── 4_model_training_and_evaluation/    ← tuning and selection for all 5 models
+    ├── 5_feature_importance/               ← feature importance analysis
     ├── requirements.txt
     └── README.md
 
@@ -48,6 +48,10 @@ On Windows:
 
     pip install -r requirements.txt
 
+Note: `requirements.txt` pins `tensorflow==2.21.0` which supports Python 3.13. All other packages are unpinned and will be resolved automatically by pip. Once installed, you can freeze the exact versions with:
+
+    pip freeze > requirements.txt
+
 ### 4. Add the data
 
 Place the following in `1_data/raw/` before running any scripts:
@@ -66,10 +70,80 @@ The cleaned processed dataset (`zone_sequence_merged.csv`) can be provided to re
 Run the scripts in `2_data_preprocessing_and_analysis/` in order to process the raw data and produce the training dataset. See the README in that folder for the full execution guide.
 
 **Step 2 — Model training and tuning**:
-Run the tuning scripts in `4_model_training_and_evaluation/` for each model. Each script resumes automatically if interrupted. See the README in that folder for details.
+Run the tuning scripts for each model. Each script resumes automatically if interrupted:
+
+    # Linear Regression
+    cd 4_model_training_and_evaluation/01_linear_regression/zone_level_tuning
+    python zone_tuning.py
+
+    cd 4_model_training_and_evaluation/01_linear_regression/regional_level_tuning
+    python regional_tuning.py
+
+    # GPR
+    cd 4_model_training_and_evaluation/02_gpr/zone_level_tuning
+    python zone_tuning.py
+
+    cd 4_model_training_and_evaluation/02_gpr/regional_level_tuning
+    python regional_tuning.py
+
+    # XGBoost
+    cd 4_model_training_and_evaluation/03_xgboost/zone_level_tuning
+    python zone_tuning.py
+
+    cd 4_model_training_and_evaluation/03_xgboost/regional_level_tuning
+    python regional_tuning.py
+
+    # LSTM
+    cd 4_model_training_and_evaluation/04_lstm/zone_level_tuning
+    python zone_tuning.py
+
+    cd 4_model_training_and_evaluation/04_lstm/regional_level_tuning
+    python regional_tuning.py
+
+    # Transformer
+    cd 4_model_training_and_evaluation/05_transformer/zone_level_tuning
+    python zone_tuning.py
+
+    cd 4_model_training_and_evaluation/05_transformer/regional_level_tuning
+    python regional_tuning.py
 
 **Step 3 — Model selection**:
-After tuning, run the model selection scripts to evaluate the top 10 candidates on the test set. Review the predicted vs observed plots and error distributions to manually select the best model per zone or region.
+After tuning completes, run the model selection scripts to evaluate the top 10 candidates on the test set. Review the predicted vs observed plots and error distributions to manually select the best model per zone or region:
+
+    # Linear Regression
+    cd 4_model_training_and_evaluation/01_linear_regression/zone_level_tuning
+    python zone_model_selection.py
+
+    cd 4_model_training_and_evaluation/01_linear_regression/regional_level_tuning
+    python regional_model_selection.py
+
+    # GPR
+    cd 4_model_training_and_evaluation/02_gpr/zone_level_tuning
+    python zone_model_selection.py
+
+    cd 4_model_training_and_evaluation/02_gpr/regional_level_tuning
+    python regional_model_selection.py
+
+    # XGBoost
+    cd 4_model_training_and_evaluation/03_xgboost/zone_level_tuning
+    python zone_model_selection.py
+
+    cd 4_model_training_and_evaluation/03_xgboost/regional_level_tuning
+    python regional_model_selection.py
+
+    # LSTM
+    cd 4_model_training_and_evaluation/04_lstm/zone_level_tuning
+    python zone_model_selection.py
+
+    cd 4_model_training_and_evaluation/04_lstm/regional_level_tuning
+    python regional_model_selection.py
+
+    # Transformer
+    cd 4_model_training_and_evaluation/05_transformer/zone_level_tuning
+    python zone_model_selection.py
+
+    cd 4_model_training_and_evaluation/05_transformer/regional_level_tuning
+    python regional_model_selection.py
 
 **Step 4 — Feature importance**:
 Run the notebooks in `5_feature_importance/` using the manually selected model filenames. See the README in that folder for details.
@@ -90,7 +164,7 @@ Run the notebooks in `5_feature_importance/` using the manually selected model f
 
 ## Requirements
 
-- Python 3.11
-- See `requirements.txt` for all dependencies
+- Python 3.13 or later
+- TensorFlow 2.21.0 (pinned for Python 3.13 compatibility)
 - GPU recommended for LSTM and Transformer full tuning runs
 - The original raw dataset requires access to the remote server where it is hosted
