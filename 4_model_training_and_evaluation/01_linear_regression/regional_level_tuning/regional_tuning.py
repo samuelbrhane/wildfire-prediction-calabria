@@ -24,7 +24,7 @@ MODELS_DIR = os.path.join(CURRENT_DIR, "models")
 random.seed(SEED)
 np.random.seed(SEED)
 
-NUM_TRIALS = 20
+NUM_TRIALS = 100
 GROUP_NAME = "regional"
 
 results_csv_path = os.path.join(RESULTS_DIR, f"{GROUP_NAME}_linear_results.csv")
