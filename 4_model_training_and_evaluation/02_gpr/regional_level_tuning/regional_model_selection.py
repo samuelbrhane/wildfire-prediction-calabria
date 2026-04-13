@@ -59,7 +59,7 @@ evaluate_top_models(
     predict_fn=predict_fn,
     get_params_fn=get_params,
     zone_id=None,
-    top_n=10
+    top_n=50
 )
 
 print("\nGPR regional model selection complete.")
