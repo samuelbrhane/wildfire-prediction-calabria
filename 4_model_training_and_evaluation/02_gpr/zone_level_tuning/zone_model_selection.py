@@ -60,7 +60,7 @@ for zone_id in range(1, 9):
         predict_fn=predict_fn,
         get_params_fn=get_params,
         zone_id=zone_id,
-        top_n=10
+        top_n=50
     )
 
 print("\nAll GPR zone model selection complete.")
