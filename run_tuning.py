@@ -8,12 +8,12 @@ MODEL_DIR = os.path.join(BASE_DIR, "4_model_training_and_evaluation")
 
 TUNING_SCRIPTS = [
     # (model_name, script_path)
-    ("Linear Regression - Zone",    "01_linear_regression/zone_level_tuning/zone_tuning.py"),
-    ("Linear Regression - Regional","01_linear_regression/regional_level_tuning/regional_tuning.py"),
-    ("GPR - Zone",                  "02_gpr/zone_level_tuning/zone_tuning.py"),
-    ("GPR - Regional",              "02_gpr/regional_level_tuning/regional_tuning.py"),
-    ("XGBoost - Zone",              "03_xgboost/zone_level_tuning/zone_tuning.py"),
-    ("XGBoost - Regional",          "03_xgboost/regional_level_tuning/regional_tuning.py"),
+    # ("Linear Regression - Zone",    "01_linear_regression/zone_level_tuning/zone_tuning.py"),
+    # ("Linear Regression - Regional","01_linear_regression/regional_level_tuning/regional_tuning.py"),
+    # ("GPR - Zone",                  "02_gpr/zone_level_tuning/zone_tuning.py"),
+    # ("GPR - Regional",              "02_gpr/regional_level_tuning/regional_tuning.py"),
+    # ("XGBoost - Zone",              "03_xgboost/zone_level_tuning/zone_tuning.py"),
+    # ("XGBoost - Regional",          "03_xgboost/regional_level_tuning/regional_tuning.py"),
     ("LSTM - Zone",                 "04_lstm/zone_level_tuning/zone_tuning.py"),
     ("LSTM - Regional",             "04_lstm/regional_level_tuning/regional_tuning.py"),
     ("Transformer - Zone",          "05_transformer/zone_level_tuning/zone_tuning.py"),
