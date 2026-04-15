@@ -46,3 +46,7 @@ Thumbs.db
 4_model_training_and_evaluation/**/models/
 4_model_training_and_evaluation/**/results/
 4_model_training_and_evaluation/**/model_selection_results/
+
+
+tuning_progress.txt
+model_selection_progress.txt
