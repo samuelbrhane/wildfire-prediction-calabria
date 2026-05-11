@@ -63,7 +63,7 @@ def predict_fn(model, preprocess_result):
     return y_pred, y_true, residuals, test_dates, metrics
 
 
-for zone_id in range(1, 2):
+for zone_id in range(1, 9):
     print(f"\n=== Model Selection for Zone {zone_id} ===")
     result_file = os.path.join(RESULTS_DIR, f"zone_{zone_id}_transformer_results.csv")
 
