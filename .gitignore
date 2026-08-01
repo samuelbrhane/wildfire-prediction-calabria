@@ -17,19 +17,11 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-
-# Data — ignore all data files but keep folder structure
-1_data/**/*.parquet
-1_data/**/*.csv
-1_data/**/*.shp
-1_data/**/*.dbf
-1_data/**/*.shx
-1_data/**/*.prj
+# Data — exclude the large raw dataset and the spatial grids
 1_data/**/*.h5
 1_data/**/*.hdf5
-1_data/**/*.qpj
 1_data/**/*.npy
-y.pub
+
 # OS / Editor
 .DS_Store
 Thumbs.db
@@ -47,6 +39,6 @@ Thumbs.db
 4_model_training_and_evaluation/**/results/
 4_model_training_and_evaluation/**/model_selection_results/
 
-
 tuning_progress.txt
 model_selection_progress.txt
+*.hub
