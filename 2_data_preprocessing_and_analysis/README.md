@@ -6,10 +6,11 @@ This folder processes the raw Calabria wildfire dataset into structured training
 
 ## Requirements
 
-**Before running anything**, add the following to `../1_data/raw/`:
-- `WarningAreas/` — the warning zone shapefile (`.shp`, `.dbf`, `.shx`, `.prj`)
+The warning zone shapefile (`WarningAreas/`) is already included in `../1_data/raw/`, so no manual setup is needed.
 
 Some scripts require the original `.h5` dataset which lives on the remote server at `../../Calabria_dataset/InputReteGood/`. These are marked with 🖥️ and must be run on the remote server after cloning the repo there. Scripts marked with ✅ only need files from `../1_data/processed/` and can be run locally.
+
+Note that `zone_sequence_merged.csv` is already included in the repository, so scripts `01` to `06` can be skipped unless the dataset needs to be regenerated.
 
 ---
 
@@ -32,7 +33,7 @@ Test notebook that validates the full single-day processing logic: reads one day
 Runs the full data pipeline for all years in parallel using multiprocessing. For each day and each zone it computes fire cluster counts and climate averages. Saves one CSV per year to `../1_data/processed/yearly/`.
 
 **06 — `06_merge_yearly_data.ipynb`** ✅
-Merges all yearly CSVs from `../1_data/processed/yearly/` into a single file `../1_data/processed/zone_sequence_merged.csv`. This is the main dataset used for model training.
+Merges all yearly CSVs from `../1_data/processed/yearly/` into a single file `../1_data/processed/zone_sequence_merged.csv`. This is the main dataset used for model training and is already included in the repository.
 
 **07 — `07_eda_fire_analysis.ipynb`** ✅
 EDA plots for fire occurrence across all 8 zones and the full region: daily fire count distributions, monthly totals, yearly totals, and fire season time series. Plots saved to `plots/eda_fire/`.
@@ -41,7 +42,7 @@ EDA plots for fire occurrence across all 8 zones and the full region: daily fire
 EDA plots for climate variables (temperature, humidity, precipitation, wind): monthly and yearly averages for all 8 zones and the full region. Plots saved to `plots/eda_climate/`.
 
 **09 — `09_eda_correlation_analysis.ipynb`** ✅
-Correlation heatmaps between climate variables and fire counts for each zone. Also saves a CSV with same-day and lag-1 day correlation summary to `plots/eda_correlation/`.
+Correlation heatmaps between climate variables and fire counts for each zone. Also saves a CSV with same-day and lag-1 day correlations, including p-values and significance flags, to `plots/eda_correlation/`.
 
 **10 — `10_compute_spatial_grids.py`** 🖥️
 Runs in parallel to compute yearly fire count grids and yearly average temperature grids from raw `.h5` files. Combines them into a total fire count grid and a mean temperature grid. Saves all `.npy` files to `../1_data/processed/spatial_grids/`. Must be run before `11` and `12`.
